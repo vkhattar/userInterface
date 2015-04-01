@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>UTrack!</title>
+    <link rel="stylesheet" href="css/ext/bootstrap.css"/>
+    <link rel="stylesheet" href="css/utrack.css"/>
+</head>
+<body>
+
+<div id="app_container" class="container">
+ 
+<!--  please note that bootstrap i used in the file is modified with the help of tutorials on the following website.
+http://www.w3schools.com/bootstrap/     -->
+  <div class="jumbotron">
+        <h1><font color="#FF3399">Welcome to UTrack!</font></h1>      
+        <p>Want to be Happy, Stress Free and Healthy and track your performance ?</p>      
+    </div>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand">UTrack!</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a id ="input" onclick= "switchtabs('input_div')">InputData</a></li>
+            <li><a id ="Analysis" onclick= "switchtabs('analysis_div')">AnalyseData</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--div class="container"!-->
+    
+    
+
+ <!--    <button id ="input" class="btn btn-info" onclick= "sw('input_div')"> input </button>
+    <button id ="Analysis" class ="btn btn-info" onclick= "sw('analysis_div')"> Analysis </button> -->
+
+
+ <div class="container content">   
+    <div id="input_div">
+        <div class="row">
+                <div class="col-lg-2">
+                    <b>Activities:</b> 
+                </div>
+                <div class="col-lg-10">
+                      <select id="activities" name="activities"> 
+                        <option value="writing code">writing code
+                        <option value="eating dinner">eating dinner
+                        <option value="playing sports">playing sports
+                        <option value="studying for exams">studying for exams
+                        <option value="attending lectures">attending lectures
+                        <option value="watching TV">watching TV
+            </select>  
+                </div>
+        </div>
+        <!-- Put HTML here to support user input of data -->
+ 
+          <!--   Enter various levels of emotions related to the activity- -->
+            
+            <div class="row">
+                <div class="col-lg-3">
+                    <b>Energy:</b>     
+                </div>
+                <div class="col-lg-9">
+                    <select  id="energy" name="energy"> 
+                        <option value="1">1
+                        <option value="2">2
+                        <option value="3">3
+                        <option value="4">4
+                        <option value="5">5
+                    </select>  
+                    (1=exhausted, 5=very awake) 
+                </div>
+               <!--   <div class="col-lg-5"> -->
+                        
+                <!-- </div> -->
+            </div>
+             
+            <div class="row">
+                <div class="col-lg-3">
+                   <b>Stress:</b>
+                </div>
+                <div class="col-lg-9">
+                   <select id="stress" name="stress"> 
+                    <option value="1">1
+                    <option value="2">2
+                    <option value="3">3
+                    <option value="4">4
+                    <option value="5">5
+                </select>     
+                    (1=very stressed, 5=very relaxed)     
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <b>Happiness:</b> 
+                </div>
+                <div class="col-lg-4">
+                    <select id="happiness" name="happiness"> 
+                        <option value="1">1
+                        <option value="2">2
+                        <option value="3">3
+                        <option value="4">4
+                        <option value="5">5
+                    </select>   
+                    (1=depressed, 5=very happy) 
+                </div>
+                
+                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2">
+                    <b>Time spent:</b>  
+                </div>
+                <div class="col-lg-10">
+                   <input id="minutes" type="number" min="0" name="minutes"> (minutes)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <template id="last_submit_time_template">
+                        Last Data Entry was: <span class="last_submit_time_span">No entries found</span>
+                    </template>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button id="submit_button" class="sbtn btn-info">Submit</button>
+                </div>
+            </div>      
+        
+    </div>
+ </div>   
+
+    <style type=text/css>
+    #analysis_div{
+        display:none;
+    }
+    </style>
+
+   
+    <style type=text/css>
+    #graph_view_div{
+        display:none;
+    }
+    </style>
+
+
+    <div id="analysis_div">
+        <!-- Put HTML here to support users in analyzing their data -->
+        
+
+        <div class="container">
+          <h3> Select from the following views</h3>
+            <div id = "radio_button" class="radio">
+              <label><input id = "summary" type="radio" name="graphView" checked>Table Summary</label>
+              <br>
+              <label><input id="graph" type="radio" name="graphView">Scatter Plot</label>
+            </div>
+        </div>
+
+
+
+        <template id="table_summary_template">
+            <div id = "table_summary_div" class="table summary">
+                <h3 >Summary View of your Activities</h3>
+                  <p>This table shows the time spent on each Activity</p>            
+                  <table id="summaryTable" class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Activities</th>
+                        <th>Time Spent</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <!--will be adding elements programitacally here !-->
+                    </tbody>
+                  </table>
+            </div>
+        </template>   
+       
+       <template id="graph_canvas_template">
+            
+            <div id="graph_view_div" class="container">
+              <h3>Customize the graph by selecting the following options</h3>
+                <div id = "checkbox_button" class="checkbox">
+                  <label><input class = "cbox" type="checkbox" value="1" checked>Energy Level</label> 
+                  <br>
+                  <label><input class = "cbox" type="checkbox" value="1" checked>Stress Level</label>
+                  <br>
+                  <label><input class = "cbox" type="checkbox" value="1" checked>Happiness Level</label>
+                  <br>
+                  <button id="customize_button" class="sbtn btn-info">Customize!</button>
+                </div>
+            
+          <div id ="graph_canvas_div" class="graph canvas">
+            <canvas id="canvas_demo" width="600" height = "600">
+                If you don't have an HTML5-compatible browser, you'll see this text.
+                This canvas object can be removed after you understand canvas basics.
+            </canvas>
+        </div> 
+        </div> 
+        </template>  
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div id="unit_tests">
+        <!-- Keep this here so TAs can run your unit tests -->
+        <a href="unit_tests.html">Run Unit Tests</a>
+    </div>
+
+</div>
+
+<script src="js/ext/underscore.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/utrack.js"></script>
+</body>
+</html>

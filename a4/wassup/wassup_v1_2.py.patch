@@ -1,0 +1,66 @@
+@@ -1,7 +1,7 @@
+ #!/usr/bin/python
+ 
+ '''
+-Authors: Michael Terry and Edith Law, for CS349, Winter 2015
++Authors: Michael Terry, Edith Law, and Gary and Ku$h, for CS349, Winter 2015
+ 
+ This file is the backend to the Wassup app. You should not need
+ to modify anything in this file. However, you may need to refer
+@@ -34,13 +34,14 @@
+ EXISTS_KEY = 'exists'
+ SENDER_ID_KEY = 'sender_id'
+ FULL_NAME_KEY = 'full_name'
++SENDER_FULL_NAME_KEY = 'sender_full_name'
+ FRIENDS_LIST_KEY = 'friends_list'
+ SUPS_KEY = 'sups'
+ SUP_ID_KEY = 'sup_id'
+ DATE_KEY = 'date'
+ 
+ # Communication constants
+-PROTOCOL_VERSION = '1.1'
++PROTOCOL_VERSION = '1.2'
+ PROTOCOL_VERSION_KEY = 'protocol_version'
+ MESSAGE_ID_KEY = 'message_id'
+ COMMAND_KEY = 'command'
+@@ -320,15 +321,20 @@
+   Returns a dictionary with the following key/value pairs:
+   - user_id: The user ID
+   - exists: Boolean
++  - full_name: User's full name, empty string if they don't exist
+   '''
+   if not (USER_ID_KEY in command_data):
+     return generate_error(message_id, command, 'Missing user_id in ' + command + ' request')
+   user_id = command_data[USER_ID_KEY]
+   app_db = app_db_load_from_file()
+   user_exists = app_db_user_exists(app_db, user_id)
++
++  user_db = app_db_get_user_db(app_db, user_id) if user_exists else None
++  user_full_name = user_db_get_user_full_name(user_db) if user_exists else ""
+   return generate_reply(message_id, command, {
+     USER_ID_KEY: user_id,
+-    EXISTS_KEY: user_exists
++    EXISTS_KEY: user_exists,
++    FULL_NAME_KEY: user_full_name
+   })
+ 
+ def handle_add_friend(
+@@ -479,11 +485,18 @@
+   Returns a list of sup objects, each with the following key-value pairs:
+   - sender_id: The user ID of the person who sent the sup
+   - sup_id: The ID of the sup message
++  - sender_full_name: The full name of the sender
+   - date: The date of the sup message
+   '''
+   app_db = app_db_load_from_file()
+   user_db = app_db_get_user_db(app_db, user_id)
+   sups = user_db_get_sups(user_db)
++  for sup in sups:
++    if app_db_user_exists(app_db, sup[SENDER_ID_KEY]):
++      sup_sender_user_db = app_db_get_user_db(app_db, sup[SENDER_ID_KEY])
++      sup[SENDER_FULL_NAME_KEY] = user_db_get_user_full_name(sup_sender_user_db)
++    else:
++      sup[SENDER_FULL_NAME_KEY] = ''
+   return generate_reply(message_id, command, sups)
+ 
+ def generate_error(

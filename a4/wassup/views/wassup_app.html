@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/static/css/wassup.css" />
+  </head>
+  <body>
+    <img class="logo" src="/static/wassup_logo.png"/>
+    <form method="POST" id="" action="/logout" enctype="multipart/form-data">
+    	<input type="submit" value="LogOut" />
+    </form>
+    <br>
+    <div id="friend">
+	  Contact List:
+	  <br> <br>
+	  <!--Add Bar-->
+	  <div class="col-lg-6">
+	    <div class="input-group">
+	      <input id = "friend_name_id"type="text" class="form-control" placeholder="Add a Friend">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button" id="add_friend_id">Add</button>
+	      </span>
+	      <button id="delete_button_id">RemoveFriend</button>
+	    </div><!-- /input-group -->
+	  </div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
+	 <!--SelectBox-->   	
+    <select id="friend_list_id" class="friend_list_c" multiple></select>
+    	<br>
+    	<br>
+    	
+    	<button class="btn btn-default" type="button" id="send_button">Send</button>
+    </div>
+    
+    
+    <div class="canvas_div">
+    	<div class="numbersup_div">
+    	You got <b><span id="sup_num_span"> </span> </b>
+    		Sups 
+    	current <span id="current_span"> 0 </span>	
+    	</div>
+    	<canvas id="canvas_id">
+    	</canvas>
+    	<div>
+    		<button id="previous_button">previous</button>
+    		<button id="next_button" float="right">next</button> 
+    	</div>
+   </div> 	
+    
+    
+    <script src="static/js/ext/underscore.js"></script>
+    <script type="text/javascript" src="/static/js/wassup.js"></script>
+  </body>
+</html>
